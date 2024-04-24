@@ -1,4 +1,6 @@
 import React from 'react';
+import { Context } from '../context/authContext';
+import Navbar from '../components/Navbar/Navbar';
 
 import '@/assets/styles/global.css';
 
@@ -12,7 +14,10 @@ const MainLayout = ({ children }) => {
   return (
     <html lang="en">
       <body>
-        <div>{children}</div>
+        <Context>
+          <Navbar />
+          <main>{children}</main>
+        </Context>
       </body>
     </html>
   );
