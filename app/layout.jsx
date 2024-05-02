@@ -1,6 +1,7 @@
 import React from 'react';
 import { Context } from '../context/authContext';
 import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
 
 import '@/assets/styles/global.css';
 
@@ -17,6 +18,7 @@ const MainLayout = ({ children }) => {
         <Context>
           <Navbar />
           <main>{children}</main>
+          <Footer />
         </Context>
       </body>
     </html>

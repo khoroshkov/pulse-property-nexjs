@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AuthContext } from '../../context/authContext.js';
-import profileDefault from '@/assets/images/profile.png';
+import profileDefault from '../../assets/images/profile.png';
 
 const LoggedInMenu = () => {
   const { isLoggedIn } = useContext(AuthContext);

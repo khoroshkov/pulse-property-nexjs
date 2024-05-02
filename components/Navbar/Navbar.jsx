@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/authContext.js';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaGoogle } from 'react-icons/fa';
-import logo from '@/assets/images/logo-white.png';
+import logo from '../../assets/images/logo-white.png';
 import LoggedInMenu from './LoggedInMenu';
 
 const Navbar = () => {
@@ -14,8 +14,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { isLoggedIn } = useContext(AuthContext);
-
-  console.log('isLoggedIn', isLoggedIn);
 
   const handleMobileMenuOpen = () => {
     setIsMobileMenuOpen((prevState) => !prevState);
