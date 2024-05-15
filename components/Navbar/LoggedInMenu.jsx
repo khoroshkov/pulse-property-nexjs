@@ -2,12 +2,15 @@
 import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AuthContext } from '../../context/authContext.js';
-import profileDefault from '../../assets/images/profile.png';
+import { AuthContext } from '@/context/authContext.js';
+import profileDefault from '@/assets/images/profile.png';
+import { FaGoogle } from 'react-icons/fa';
 
 const LoggedInMenu = () => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, signIn, signOut, providers, session } = useContext(AuthContext);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const profileImage = session?.user?.image;
 
   const handleProfileMenuOpen = () => {
     setIsProfileOpen((prevState) => !prevState);
@@ -18,7 +21,9 @@ const LoggedInMenu = () => {
       <div className="hidden md:block md:ml-6">
         {!isLoggedIn && (
           <div className="flex items-center">
-            <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
+            <button
+              className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+              onClick={() => signIn(providers?.google?.id)}>
               <FaGoogle className="text-white mr-2" /> Login or Register
             </button>
           </div>
@@ -63,7 +68,14 @@ const LoggedInMenu = () => {
                 onClick={handleProfileMenuOpen}>
                 <span className="absolute -inset-1.5"></span>
                 <span className="sr-only">Open user menu</span>
-                <Image className="h-8 w-8 rounded-full" src={profileDefault} alt="" />
+                <Image
+                  className="h-8 w-8 rounded-full"
+                  src={profileImage || profileDefault}
+                  alt="user profile avatar"
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                />
               </button>
             </div>
 
@@ -81,7 +93,8 @@ const LoggedInMenu = () => {
                   className="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabIndex="-1"
-                  id="user-menu-item-0">
+                  id="user-menu-item-0"
+                  onClick={() => setIsProfileOpen(false)}>
                   Your Profile
                 </Link>
                 <Link
@@ -89,14 +102,16 @@ const LoggedInMenu = () => {
                   className="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabIndex="-1"
-                  id="user-menu-item-2">
+                  id="user-menu-item-2"
+                  onClick={() => setIsProfileOpen(false)}>
                   Saved Properties
                 </Link>
                 <button
                   className="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabIndex="-1"
-                  id="user-menu-item-2">
+                  id="user-menu-item-2"
+                  onClick={() => signOut()}>
                   Sign Out
                 </button>
               </div>

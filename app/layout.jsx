@@ -1,7 +1,8 @@
 import React from 'react';
-import { Context } from '../context/authContext';
-import Navbar from '../components/Navbar/Navbar';
-import Footer from '../components/Footer/Footer';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import { Context } from '@/context/authContext';
+import Navbar from '@/components/Navbar/Navbar';
+import Footer from '@/components/Footer/Footer';
 
 import '@/assets/styles/global.css';
 
@@ -13,15 +14,17 @@ export const metadata = {
 
 const MainLayout = ({ children }) => {
   return (
-    <html lang="en">
-      <body>
-        <Context>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Context>
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body>
+          <Context>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </Context>
+        </body>
+      </html>
+    </AuthProvider>
   );
 };
 

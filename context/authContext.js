@@ -1,12 +1,35 @@
 'use client';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 export const AuthContext = createContext();
 
 export const Context = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { data: session } = useSession();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const res = await getProviders();
+      setProviders(res);
+    };
+
+    setAuthProviders();
+  }, []);
+
+  useEffect(() => {
+    if (session) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [session]);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, signIn, signOut, providers, session }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
