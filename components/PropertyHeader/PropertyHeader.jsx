@@ -10,7 +10,7 @@ const PropertyHeader = ({ image }) => {
             height={0}
             width={0}
             sizes="100vw"
-            src={`/images/properties/${image}`}
+            src={image}
             alt=""
             className="object-cover h-[400px] w-full"
             width="1800"
