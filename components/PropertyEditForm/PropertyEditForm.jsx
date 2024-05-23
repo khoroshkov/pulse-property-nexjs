@@ -1,5 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { fetchProperty } from '@/utils/requests';
+import Spinner from '@/components/Spinner/Spinner';
 
 const INITIAL_STATE = {
   owner: '',
@@ -26,14 +30,17 @@ const INITIAL_STATE = {
     email: '',
     phone: ''
   },
-  images: [],
   is_featured: false,
   createdAt: '',
   updatedAt: ''
 };
 
-const PropertyAddForm = () => {
+const PropertyEditForm = () => {
+  const { id } = useParams();
+  const router = useRouter();
+
   const [fields, setFields] = useState(INITIAL_STATE);
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,20 +79,47 @@ const PropertyAddForm = () => {
       amenities: updatedAmenities
     }));
   };
-  const handleImageChange = (e) => {
-    const { files } = e.target;
-    const updatedImages = [...fields.images];
-    Object.entries(files).forEach((file) => updatedImages.push(file));
 
-    setFields((prevFields) => ({
-      ...prevFields,
-      images: updatedImages
-    }));
+  const handleEditProperty = async (e) => {
+    e.preventDefault();
+
+    try {
+      const formaData = new FormData(e.target);
+      const res = await fetch(`/api/properties/${id}`, { method: 'PUT', body: formaData });
+      if (res.status === 200) {
+        router.push(`/properties/${id}`);
+      } else if (res.status === 401 || res.status === 403) {
+        toast.error('Permission denied');
+      } else {
+        toast.error('Something went wrong');
+      }
+    } catch (error) {
+      toast.error('Server error. Try again later.');
+    }
   };
 
-  return (
-    <form action="/api/properties" method="POST" encType="multipart/form-data">
-      <h2 className="text-3xl text-center font-semibold mb-6">Add Property</h2>
+  useEffect(() => {
+    const fetchPropertyData = async (propertyId) => {
+      try {
+        const propertyData = await fetchProperty(propertyId);
+        if (propertyData) {
+          setFields(propertyData);
+        }
+      } catch (error) {
+        toast.error('There is an error during getting property');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPropertyData(id);
+  }, []);
+
+  return loading ? (
+    <Spinner loading={loading} />
+  ) : (
+    <form onSubmit={handleEditProperty}>
+      <h2 className="text-3xl text-center font-semibold mb-6">Edit Property</h2>
       <div className="mb-4">
         <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
           Property Type
@@ -497,31 +531,15 @@ const PropertyAddForm = () => {
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="images" className="block text-gray-700 font-bold mb-2">
-          Images (Select up to 4 images)
-        </label>
-        <input
-          type="file"
-          id="images"
-          name="images"
-          className="border rounded w-full py-2 px-3"
-          accept="image/*"
-          multiple
-          onChange={handleImageChange}
-          required
-        />
-      </div>
-
       <div>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
           type="submit">
-          Add Property
+          Edit Property
         </button>
       </div>
     </form>
   );
 };
 
-export default PropertyAddForm;
+export default PropertyEditForm;
