@@ -1,6 +1,8 @@
 import React from 'react';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import { Context } from '@/context/authContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 
@@ -22,6 +24,7 @@ const MainLayout = ({ children }) => {
             <main>{children}</main>
             <Footer />
           </Context>
+          <ToastContainer />
         </body>
       </html>
     </AuthProvider>
