@@ -19,7 +19,8 @@ export const Context = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (session) {
+    if (session && session?.user?.id) {
+      console.log('session', session);
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);

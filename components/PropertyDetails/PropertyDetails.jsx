@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaBed, FaBath, FaRulerCombined, FaTimes, FaCheck, FaMapMarker } from 'react-icons/fa';
+import PropertyMap from '@/components/PropertyMap/PropertyMap';
 
 const PropertyDetails = ({ property }) => {
   const { amenities, baths, beds, description, details, location, name, rates, square_feet, type } =
@@ -87,7 +88,7 @@ const PropertyDetails = ({ property }) => {
         </ul>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <div id="map"></div>
+        <PropertyMap property={property} />
       </div>
     </main>
   );
