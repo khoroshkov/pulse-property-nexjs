@@ -8,11 +8,13 @@ export const Context = ({ children }) => {
   const { data: session } = useSession();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [providers, setProviders] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const setAuthProviders = async () => {
       const res = await getProviders();
       setProviders(res);
+      setLoading(false);
     };
 
     setAuthProviders();
@@ -20,7 +22,6 @@ export const Context = ({ children }) => {
 
   useEffect(() => {
     if (session && session?.user?.id) {
-      console.log('session', session);
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -29,7 +30,7 @@ export const Context = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, signIn, signOut, providers, session }}>
+      value={{ isLoggedIn, setIsLoggedIn, signIn, signOut, providers, session, loading }}>
       {children}
     </AuthContext.Provider>
   );
