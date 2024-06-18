@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import { MessageContextProvider } from '@/context/messageContext';
 import { Context } from '@/context/authContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,16 +18,18 @@ export const metadata = {
 const MainLayout = ({ children }) => {
   return (
     <AuthProvider>
-      <html lang="en">
-        <body>
-          <Context>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </Context>
-          <ToastContainer />
-        </body>
-      </html>
+      <MessageContextProvider>
+        <html lang="en">
+          <body>
+            <Context>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </Context>
+            <ToastContainer />
+          </body>
+        </html>
+      </MessageContextProvider>
     </AuthProvider>
   );
 };
