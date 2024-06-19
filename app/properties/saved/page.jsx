@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import PropertyCard from '@components/PropertyCard/PropertyCard';
-import Spinner from '@components/Spinner/Spinner';
+import PropertyCard from '@/components/PropertyCard/PropertyCard';
+import Spinner from '@/components/Spinner/Spinner';
 
 const SavedPropertiesPage = () => {
   const [properties, setProperties] = useState([]);
