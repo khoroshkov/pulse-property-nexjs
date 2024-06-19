@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 
 import '@/assets/styles/global.css';
+import 'photoswipe/dist/photoswipe.css';
 
 export const metadata = {
   title: 'PropertyPulse | Find The Perfect Rental',
