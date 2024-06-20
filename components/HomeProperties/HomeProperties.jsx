@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import PropertyCard from '@/components/PropertyCard/PropertyCard';
@@ -5,7 +6,9 @@ import { fetchProperties } from '@/utils/requests.js';
 
 const HomeProperties = async () => {
   const data = await fetchProperties();
-  const recentProperties = data?.properties?.sort(() => Math.random() - Math.random()).slice(0, 3);
+  const recentProperties = data
+    ? data?.properties?.sort(() => Math.random() - Math.random()).slice(0, 3)
+    : [];
 
   return (
     <>

@@ -24,7 +24,7 @@ const PropertyImages = ({ images }) => {
             </Item>
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <div
                   key={image}
                   className={`${images.length === 3 && index === 2 ? 'col-span-2' : 'col-span-1'}`}>
